@@ -1,0 +1,72 @@
+/* Global Fade-in Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Apply fade-in to main containers */
+.glass-container {
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Glowing Effect for Buttons */
+@keyframes glow {
+    0% { box-shadow: 0 0 10px #00c3ff; }
+    50% { box-shadow: 0 0 20px #00c3ff; }
+    100% { box-shadow: 0 0 10px #00c3ff; }
+}
+
+.btn:hover {
+    animation: glow 1.5s infinite alternate;
+}
+
+/* Camera Feed Animation */
+@keyframes cameraBorder {
+    0% { border: 2px solid rgba(0, 195, 255, 0.5); }
+    50% { border: 2px solid rgba(0, 195, 255, 1); }
+    100% { border: 2px solid rgba(0, 195, 255, 0.5); }
+}
+
+#camera-feed {
+    animation: cameraBorder 1s infinite alternate;
+    border-radius: 10px;
+}
+
+/* Loading Animation */
+@keyframes loading {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loader {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #00c3ff;
+    border-radius: 50%;
+    animation: loading 1s linear infinite;
+    margin: 20px auto;
+}
+
+/* Blinking Alert Effect */
+@keyframes alertBlink {
+    0% { background-color: rgba(255, 0, 0, 0.5); }
+    50% { background-color: rgba(255, 0, 0, 1); }
+    100% { background-color: rgba(255, 0, 0, 0.5); }
+}
+
+.alert-box {
+    padding: 15px;
+    font-size: 1.2rem;
+    color: white;
+    background: rgba(255, 0, 0, 0.7);
+    text-align: center;
+    border-radius: 10px;
+    animation: alertBlink 1s infinite alternate;
+}
