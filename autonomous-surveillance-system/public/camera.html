@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Camera Feed</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/animations.css">
+</head>
+<body>
+
+    <nav id="navbar"></nav>
+
+    <main class="camera-container">
+        <h2>Live Surveillance Feed</h2>
+        <video id="camera-feed" autoplay playsinline></video>
+
+        <div class="camera-controls">
+            <button id="capture-btn" class="btn-primary">📸 Capture Snapshot</button>
+            <button id="toggle-camera-btn" class="btn-secondary">🔄 Switch Camera</button>
+            <button id="detect-btn" class="btn-alert">🚨 Detect</button>
+            <p id="scream-result">Waiting for detection...</p>
+            <p id="violence-result">Violence detection status...</p>
+        </div>
+
+        <canvas id="snapshot-canvas" style="display:none;"></canvas>
+    
+        <!-- Upload File Section -->
+        <div class="upload-section">
+            <h3>Upload Audio File</h3>
+            <input type="file" id="uploadFile" accept=".wav,.mp3,.ogg">
+            <button id="upload-btn" style="border: 10px color(srgb red green blue);">Upload</button>
+            <p id="file-status">No file uploaded.</p>
+        </div>
+    </main>
+
+    <footer id="footer"></footer>
+
+    <script src="../assets/js/camera.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/scream_detection.js"></script>
+    <script src="../assets/js/violence_detection.js"></script>
+    
+    <script>
+        document.getElementById('upload-btn').addEventListener('click', function() {
+            const fileInput = document.getElementById('uploadFile');
+            const fileStatus = document.getElementById('file-status');
+            if (fileInput.files.length > 0) {
+                fileStatus.innerText = "File Uploaded: " + fileInput.files[0].name;
+            } else {
+                alert("Please select a file first.");
+            }
+        });
+
+        document.getElementById('detect-btn').addEventListener('click', function() {
+            document.getElementById('scream-result').textContent = "Analyzing audio...";
+            document.getElementById('violence-result').textContent = "Analyzing video...";
+            setTimeout(() => {
+                document.getElementById('scream-result').textContent = "No scream detected.";
+                document.getElementById('violence-result').textContent = "No violence detected.";
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
