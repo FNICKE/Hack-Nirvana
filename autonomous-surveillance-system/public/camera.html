@@ -3,45 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Camera Feed</title>
+    <title>Camera Access</title>
     <link rel="stylesheet" href="../assets/css/styles.css">
-    <link rel="stylesheet" href="../assets/css/animations.css">
 </head>
 <body>
 
-    <nav id="navbar"></nav>
+    <!-- 🔹 Navigation Bar -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <h1 class="logo">Surveillance System</h1>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="camera.html">Features</a></li>
+                <li><a href="alerts.html">About</a></li>
+            </ul>
+        </div>
+    </nav>
 
     <main class="camera-container">
-        <h2>Live Surveillance Feed</h2>
-        <video id="camera-feed" autoplay playsinline></video>
+        <!-- 📸 Camera Video (Initially Hidden) -->
+        <video id="camera-feed" autoplay playsinline style="display: none;"></video>
 
+        <!-- 🎛 Camera Control Buttons -->
         <div class="camera-controls">
-            <button id="capture-btn" class="btn-primary">📸 Capture Snapshot</button>
-            <button id="toggle-camera-btn" class="btn-secondary">🔄 Switch Camera</button>
+            <button id="start-camera-btn" class="btn-primary">📸 Start Camera</button>
+            <button id="stop-camera-btn" class="btn-secondary" disabled>🛑 Stop Camera</button>
             <button id="detect-btn" class="btn-alert">🚨 Detect</button>
-            <p id="scream-result">Waiting for detection...</p>
-            <p id="violence-result">Violence detection status...</p>
         </div>
 
-        <canvas id="snapshot-canvas" style="display:none;"></canvas>
-    
-        <!-- Upload File Section -->
+        <p id="scream-result">Waiting for detection...</p>
+        <p id="violence-result">Violence detection status...</p>
+
+        <!-- 🎤 Upload File Section -->
         <div class="upload-section">
-            <h3>Upload Audio File</h3>
+            <h3>Upload File</h3>
             <input type="file" id="uploadFile" accept=".wav,.mp3,.ogg">
-            <button id="upload-btn" style="border: 10px color(srgb red green blue);">Upload</button>
-            <p id="file-status">No file uploaded.</p>
+            <div class="upload-container">
+                <button id="upload-btn">📤 Upload</button>
+                <p id="file-status">No file uploaded.</p>
+            </div>
         </div>
     </main>
 
-    <footer id="footer"></footer>
+    <footer id="footer">
+        <p>© 2025 Surveillance System. All rights reserved.</p>
+    </footer>
 
-    <script src="../assets/js/camera.js"></script>
-    <script src="../assets/js/app.js"></script>
-    <script src="../assets/js/scream_detection.js"></script>
-    <script src="../assets/js/violence_detection.js"></script>
-    
+    <!-- 🎥 Camera Script -->
     <script>
+        let videoStream = null;
+        const video = document.getElementById("camera-feed");
+        const startBtn = document.getElementById("start-camera-btn");
+        const stopBtn = document.getElementById("stop-camera-btn");
+
+        // 🎬 Start Camera
+        startBtn.addEventListener("click", async () => {
+            try {
+                videoStream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = videoStream;
+                video.style.display = "block";  // Show camera feed
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
+            } catch (error) {
+                alert("Camera access denied or unavailable!");
+            }
+        });
+
+        // 🛑 Stop Camera
+        stopBtn.addEventListener("click", () => {
+            if (videoStream) {
+                videoStream.getTracks().forEach(track => track.stop());
+                video.srcObject = null;
+                video.style.display = "none"; // Hide camera feed
+                startBtn.disabled = false;
+                stopBtn.disabled = true;
+            }
+        });
+
+        // 📤 File Upload
         document.getElementById('upload-btn').addEventListener('click', function() {
             const fileInput = document.getElementById('uploadFile');
             const fileStatus = document.getElementById('file-status');
@@ -52,6 +91,7 @@
             }
         });
 
+        // 🚨 Fake Detection Alert
         document.getElementById('detect-btn').addEventListener('click', function() {
             document.getElementById('scream-result').textContent = "Analyzing audio...";
             document.getElementById('violence-result').textContent = "Analyzing video...";
@@ -61,5 +101,118 @@
             }, 2000);
         });
     </script>
+
+    <!-- 🎨 Styling -->
+    <style>
+        /* 🔹 Navigation Bar */
+        nav {
+            background: linear-gradient(to right, #1e40af, #2563eb);
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 15px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li {
+            display: inline;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.7;
+        }
+
+        /* 🔹 Camera Section */
+        .camera-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        video {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 10px;
+            border: 2px solid white;
+            margin-bottom: 10px;
+            display: none; /* Hide camera by default */
+        }
+
+        .camera-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-primary, .btn-secondary, .btn-alert {
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #1e40af;
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-alert {
+            background-color: #ffcc00;
+            color: black;
+        }
+
+        .upload-section {
+            margin-top: 20px;
+        }
+
+        /* 🔹 Footer */
+        footer {
+            background: #1e40af;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: auto;
+        }
+    </style>
+
 </body>
 </html>
