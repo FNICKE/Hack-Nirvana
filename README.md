@@ -143,10 +143,3 @@ We welcome contributions to **SecureScope**! Feel free to open **issues** or **p
 
 ---
 
-## 🌍 **Social Media & Support**:
-
-- Follow us on **Twitter**: [@SecureScopeAI](https://twitter.com/SecureScopeAI)
-- Join the **Discord** community for support and discussions: [SecureScope Discord](https://discord.gg/SecureScope)
-- Visit our website: [www.SecureScopeAI.com](https://www.SecureScopeAI.com)
-
----
